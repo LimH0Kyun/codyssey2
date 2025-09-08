@@ -15,6 +15,7 @@ class ChatServer:
         self.banned = []
         self.admin_nick = 'admin'
         self.games = {}  # For simple games like rps
+        self.last_actions = {}  # To store last action for cancel
 
     def start_server(self):
         self.server_socket.bind((self.host, self.port))
@@ -35,6 +36,7 @@ class ChatServer:
             self.clients.append(client_socket)
             self.nicknames[client_socket] = nickname
             self.colors[client_socket] = '\033[0m'  # Default color
+            self.last_actions[client_socket] = None
             self.broadcast(f'{nickname}님이 입장하셨습니다.', client_socket)
             self.send_help(client_socket)
             while True:
@@ -64,6 +66,8 @@ class ChatServer:
                     self.unban_user(message, client_socket)
                 elif message.startswith('/game '):
                     self.handle_game(message, client_socket)
+                elif message.startswith('/cancel'):
+                    self.cancel_last_action(client_socket)
                 else:
                     self.broadcast(f'{nickname}> {message}', client_socket)
         except:
@@ -110,6 +114,7 @@ class ChatServer:
 - /ban <닉네임>: 사용자 밴 (관리자만)
 - /unban <닉네임>: 사용자 언밴 (관리자만)
 - /game rps <선택>: 가위바위보 (rock, paper, scissors)
+- /cancel: 마지막 액션 취소
 - /종료: 연결 종료
         """
         client_socket.send(help_msg.encode('utf-8'))
@@ -129,6 +134,7 @@ class ChatServer:
             client_socket.send('이미 사용중인 닉네임입니다.'.encode('utf-8'))
             return
         self.nicknames[client_socket] = new_nick
+        self.last_actions[client_socket] = {'type': 'nick', 'old_nick': old_nick, 'new_nick': new_nick}
         self.broadcast(f'{old_nick}님이 {new_nick}으로 닉네임을 변경하셨습니다.', client_socket)
         client_socket.send(f'닉네임이 {new_nick}으로 변경되었습니다.'.encode('utf-8'))
 
@@ -164,7 +170,9 @@ class ChatServer:
             'cyan': '\033[96m'
         }
         if color in color_codes:
+            old_color = self.colors[client_socket]
             self.colors[client_socket] = color_codes[color]
+            self.last_actions[client_socket] = {'type': 'color', 'old_color': old_color}
             client_socket.send(f'색상이 {color}으로 변경되었습니다.'.encode('utf-8'))
         else:
             client_socket.send('지원되는 색상: red, green, blue, yellow, magenta, cyan'.encode('utf-8'))
@@ -240,15 +248,23 @@ class ChatServer:
             self.broadcast(f'{nickname}님이 가위바위보를 했습니다: {choice} vs {server_choice} - {result}', client_socket)
             client_socket.send(f'결과: {choice} vs {server_choice} - {result}'.encode('utf-8'))
 
-    def determine_rps_winner(self, user, server):
-        if user == server:
-            return '무승부'
-        elif (user == 'rock' and server == 'scissors') or \
-             (user == 'paper' and server == 'rock') or \
-             (user == 'scissors' and server == 'paper'):
-            return '승리'
-        else:
-            return '패배'
+    def cancel_last_action(self, client_socket):
+        last_action = self.last_actions.get(client_socket)
+        if last_action is None:
+            client_socket.send('취소할 마지막 액션이 없습니다.'.encode('utf-8'))
+            return
+        action_type = last_action['type']
+        if action_type == 'nick':
+            old_nick = last_action['old_nick']
+            new_nick = last_action['new_nick']
+            self.nicknames[client_socket] = old_nick
+            self.broadcast(f'{new_nick}님이 {old_nick}으로 닉네임을 되돌렸습니다.', client_socket)
+            client_socket.send(f'닉네임이 {old_nick}으로 되돌려졌습니다.'.encode('utf-8'))
+        elif action_type == 'color':
+            old_color = last_action['old_color']
+            self.colors[client_socket] = old_color
+            client_socket.send('색상이 되돌려졌습니다.'.encode('utf-8'))
+        self.last_actions[client_socket] = None
 
     def remove_client(self, client_socket):
         if client_socket in self.clients:
@@ -257,6 +273,8 @@ class ChatServer:
             del self.nicknames[client_socket]
             if client_socket in self.colors:
                 del self.colors[client_socket]
+            if client_socket in self.last_actions:
+                del self.last_actions[client_socket]
             client_socket.close()
             self.broadcast(f'{nickname}님이 퇴장하셨습니다.')
 
