@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang='ko'>
+
+<head>
+    <meta charset='utf-8'>
+    <title>우주 해적단 소개</title>
+    <style>
+        body {
+            font-family: system-ui, Arial, sans-serif;
+            background: #060b16;
+            color: #e3e8f2;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            padding: 2rem 1.5rem;
+            background: linear-gradient(135deg, #0e1d36, #142d55);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, .4);
+        }
+
+        h1 {
+            margin: 0 0 .5rem;
+            font-size: 2rem;
+            letter-spacing: .05em;
+        }
+
+        p.tagline {
+            margin: 0;
+            font-size: 1rem;
+            color: #9fb7d9;
+        }
+
+        main {
+            max-width: 860px;
+            margin: 2rem auto 4rem;
+            padding: 0 1.5rem;
+        }
+
+        section {
+            margin-bottom: 2.5rem;
+        }
+
+        h2 {
+            color: #58a6ff;
+            margin: .2rem 0 1rem;
+        }
+
+        .crew {
+            display: grid;
+            gap: 1.2rem;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        }
+
+        .card {
+            background: #122135;
+            padding: 1rem .9rem 1.1rem;
+            border: 1px solid #1c3352;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 30% 25%, rgba(88, 166, 255, .35), transparent 60%);
+            opacity: .4;
+            pointer-events: none;
+        }
+
+        .role {
+            font-size: .75rem;
+            letter-spacing: .08em;
+            font-weight: 600;
+            color: #7fb5ff;
+            text-transform: uppercase;
+        }
+
+        .name {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin: .2rem 0 .4rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2.5rem 1rem;
+            font-size: .8rem;
+            background: #0b1524;
+            color: #5f7899;
+        }
+
+        a {
+            color: #7fb5ff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .intro-box {
+            background: #101c2c;
+            padding: 1.25rem 1.2rem 1.35rem;
+            border: 1px solid #1e3350;
+            border-radius: 12px;
+            box-shadow: 0 4px 14px -4px rgba(0, 0, 0, .6);
+        }
+
+        code {
+            background: #1c2e44;
+            padding: .15rem .4rem;
+            border-radius: 4px;
+            font-size: .85rem;
+        }
+
+        .highlight {
+            color: #ffc866;
+        }
+
+        @media (max-width:560px) {
+            h1 {
+                font-size: 1.55rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>★ 성간 자유 연합: 우주 해적단 ★</h1>
+        <p class='tagline'>경계 너머의 항로를 개척하고, 억압된 식민지에 자유의 신호를 쏘는 그림자 함대</p>
+    </header>
+    <main>
+        <section class='intro-box'>
+            <h2>사명 (Mission)</h2>
+            <p>우리는 단순한 약탈자가 아니다. 거대 기업 함대와 황실 모노폴리를 교란하고, 착취 구조를 붕괴시키는 <span class='highlight'>분산형 항로 조작자</span>이자 데이터 해방가다. 목표는 세 가지:</p>
+            <ol>
+                <li>독점 항성로 좌표를 탈취해 개방형 항법망으로 재배포</li>
+                <li>식민지 조세 착취 시스템 파괴 및 자율 통상권 회복</li>
+                <li>검열된 기록 아카이브 복원 및 투명 공개</li>
+            </ol>
+        </section>
+
+        <section>
+            <h2>운용 전술 (Tactics)</h2>
+            <p>우리 함선들은 스텔스 플라즈마 필드와 분산식 양자 서명 위장 기법을 사용한다. 교전은 짧고 빠르게, 장악은 조용히. 사이버 침투 모듈은 상선 항법 코어를 비폭력 방식으로 재기동시켜 화물만 분리한다.</p>
+            <ul>
+                <li>모듈형 함체: 전자전 / 관측 / 기동 / 파편 차폐 세그먼트 교체</li>
+                <li>공명 해킹: 폐쇄 항법 루프를 위상 편이로 우회</li>
+                <li>저소음 기동: 추진 연소 로그를 확률 분해해 추적 무력화</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>주요 승무원 (Crew)</h2>
+            <div class='crew'>
+                <div class='card'>
+                    <div class='role'>Captain</div>
+                    <div class='name'>라그나 블랙웨이크</div>
+                    <p>항성 교차 전략가. 실패 확률을 모델링해 전투 회피율 87% 유지.</p>
+                </div>
+                <div class='card'>
+                    <div class='role'>Navigator</div>
+                    <div class='name'>세르엔 아스트라</div>
+                    <p>잔광 패턴을 분석해 숨겨진 항성로를 복원하는 분광 항법사.</p>
+                </div>
+                <div class='card'>
+                    <div class='role'>Engineer</div>
+                    <div class='name'>아이리스 7호</div>
+                    <p>자기-복구 드론 군집 관리. 비가동 시간 평균 12분 이내.</p>
+                </div>
+                <div class='card'>
+                    <div class='role'>Infiltrator</div>
+                    <div class='name'>코발트 밈</div>
+                    <p>양자 서명 위조 전문가. 위장 식별 추적률 0.7%.</p>
+                </div>
+                <div class='card'>
+                    <div class='role'>Archivist</div>
+                    <div class='name'>엘라라 아카이브</div>
+                    <p>검열 해제 데이터 복구 및 신뢰 그래프 유지.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>윤리 규약 (Code)</h2>
+            <p>비살상. 비독점. 비강제. 우리는 항로를 공유하지만, 폭력은 최소화한다. 데이터는 공개하되 주민 식별 정보는 암호화한 뒤 파기한다.</p>
+        </section>
+
+        <section>
+            <h2>가입 절차 (Join)</h2>
+            <p>입단 시험은 단순하다. 열린 데이터 릴레이를 하나 개방하거나, 독점 항법 파일 포맷을 리버스 엔지니어링해서 <code>patch.diff</code>를 제출하라.</p>
+        </section>
+    </main>
+    <footer>
+        <p>© 2525 Interstellar Free Syndicate. All transwarp bearings liberated.</p>
+    </footer>
+</body>
+
+</html>
